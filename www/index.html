@@ -282,7 +282,7 @@ G("gAdd").onclick=function(){
 };
 G("gq").onchange=renderGrammar;
 /* extras */
-function speak(t,l){try{var u=new SpeechSynthesisUtterance(t);u.lang={en:"en-US",ja:"ja-JP",fi:"fi-FI"}[l]||"en-US";u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+function speak(t,l){var lang={en:"en-US",ja:"ja-JP",fi:"fi-FI"}[l]||"en-US";try{var T=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.TextToSpeech;if(T){T.stop().catch(function(){});T.speak({text:t,lang:lang,rate:0.9});return;}var u=new SpeechSynthesisUtterance(t);u.lang=lang;u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
 document.addEventListener("click",function(e){var b=e.target.closest("[data-s]");if(!b)return;var c=S.cards.filter(function(x){return x.id===b.dataset.s;})[0];if(c)speak(c.front,c.lang);});
 function renderWod(){var b=G("wod");if(!S.cards.length){b.classList.add("hide");return;}b.classList.remove("hide");var d=new Date(),c=S.cards[(d.getFullYear()*372+d.getMonth()*31+d.getDate())%S.cards.length];b.innerHTML='<div class="muted">لغت روز</div><div class="row"><span dir="auto"><b>'+esc(c.front)+'</b> — '+esc(c.back)+'</span><button class="sp" data-s="'+c.id+'" aria-label="تلفظ">🔊</button></div>';}
 var gzCur=null,gzSh=false;
